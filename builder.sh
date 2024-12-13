@@ -25,23 +25,6 @@ cp /raspi-kernel/linux/arch/arm64/boot/dts/broadcom/*.dtb /raspios/mnt/boot
 cp /raspi-kernel/linux/arch/arm64/boot/dts/overlays/*.dtb* /raspios/mnt/boot/overlays/
 cp /raspi-kernel/linux/arch/arm64/boot/dts/overlays/README /raspios/mnt/boot/overlays/
 
-# Robotics Related setup
-
-CONFIG_FILE="/raspios/mnt/boot/config.txt"
-
-sed -i '/### NR-START ###/,/### NR-END ###/d' $CONFIG_FILE
-sed -i '/^\[all\]/,${/^[[:space:]]*$/d;s/[[:space:]]*$//}' $CONFIG_FILE
-
-CONFIGURATION="\n### NR-START ###\n"
-CONFIGURATION="${CONFIGURATION}### Do not edit anything in this region manually ###\n"
-CONFIGURATION="${CONFIGURATION}usb_max_current_enable=1\n"
-CONFIGURATION="${CONFIGURATION}dtparam=uart0=on\n"
-CONFIGURATION="${CONFIGURATION}init_uart_clock=10000000\n"
-CONFIGURATION="${CONFIGURATION}dtparam=rtc=bbat_vchg=300000\n"
-CONFIGURATION="${CONFIGURATION}### NR-END ###"
-
-echo $CONFIGURATION >>$CONFIG_FILE
-
 umount /raspios/mnt/root
 umount /raspios/mnt/boot
 
